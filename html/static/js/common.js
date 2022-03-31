@@ -116,7 +116,7 @@ function commonFunction(){
 
 			var currentSlide = $('.section-0' + n);
 			$.ajax({
-				url : '../contents.html?',// + Math.random(),
+				url : '../html/contents.html?',// + Math.random(),
 				dataType : 'html',
 				//cache : false,
 				type : 'get',
