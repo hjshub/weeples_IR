@@ -42,7 +42,7 @@ time, mark, audio, video {
 	-moz-box-sizing:border-box;
 	font-style:normal;
 	vertical-align:middle;
-	outline-width:0;
+	outline:none;
 }
 
 /* HTML5 display-role reset for older browsers */
@@ -84,11 +84,11 @@ input[type=date]::-webkit-inner-spin-button {
 input[type=date]::-webkit-calendar-picker-indicator {
 	display:inline-block;
 	opacity:0;
-  width:28px;
-  height:28px;
-  padding:0;
-  margin-right:3%;
-  background:transeparent;
+	width:28px;
+	height:28px;
+	padding:0;
+	margin-right:3%;
+	background:transeparent;
 }
 
 input[type=reset],
@@ -111,6 +111,13 @@ textarea:-internal-autofill-selected,
 select:-internal-autofill-previewed, 
 select:-internal-autofill-selected {
 	background-color:rgba(225,225,225,0) !important;
+}
+
+input:focus,
+textarea:focus,
+select:focus,
+button:focus {
+	outline:none;
 }
 
 button {

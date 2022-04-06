@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" class="main">
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -42,71 +42,40 @@
 
 	<div id="layout">
 		<header>
-			<div>
-				<span class="logo-wrap"><a href="index.html"><em class="hidden-txt">로고 이미지</em></a></span>
-				<nav class="menu-all">
-					<a href="javascript:void(0);"><span><em class="hidden-txt">전체메뉴</em></span></a>
-					<div>
-						<div>
-							<ul class="member animate fast fadeInDown_row">
-								<!-- 로그인 전 -->
-								<li><a href="member/signin.html">로그인</a></li>
-								<li class="join">
-									<ul>
-										<li><a href="partner/signup.html">프리랜서 가입</a></li>
-										<li><a href="client/signup.html">기업회원 가입</a></li>
-									</ul>
-								</li>
-								<!-- 로그인 후 
-								<li><a href="javascript:void(0);">로그아웃</a></li>
-								<li><a href="member/partners_mypage.html">마이페이지</a></li>
-								-->
-							</ul>
-							<div class="category animate fast fadeInDown_row">
-								<ul>
-									<li><a href="project/search.html">프로젝트 검색</a></li>
-									<li><a href="project/create.html">프로젝트 등록</a></li>
-									<li><a href="partner/create.html">프리랜서 등록</a></li>
-									<li>
-										<a href="introduce/we_people.html">위플즈 소개</a>
-										<ul class="depth2">
-											<li><a href="introduce/we_people.html">We:People</a></li>
-											<li><a href="introduce/we_project.html">We:Project</a></li>
-										</ul>
-									</li>
-									<li>
-										<a href="community/list.html">커뮤니티</a>
-										<ul class="depth2">
-											<li><a href="community/inquiry.html">1:1문의</a></li>
-											<li><a href="community/faq.html">FAQ</a></li>
-											<li><a href="community/list.html">위플즈 커뮤니티</a></li>
-										</ul>
-									</li>
-								</ul>
-							</div>
-						</div>	
-					</div>
-				</nav>	
-			</div>
+			<hgroup>
+				<span class="logo-wrap"><a href="index.html"><em class="hidden-txt">weepls</em></a></span>
+				<span class="button-area">
+					<button type="button" class="menuAll"><em class="hidden-txt">전체메뉴</em></button>
+					<button type="button" class="swiper-prev btn-prev"><em class="hidden-txt">이전</em></button>
+					<button type="button" class="swiper-nxt btn-next"><em class="hidden-txt">다음</em></button>
+				</span>
+			</hgroup>
+			<nav>
+				<p>새로운 세상의 시작을 알리는<br /> 우리의 서비스 <strong class="txt-color-mint">위플즈</strong></p>
+				<div class="category">
+					<ul>
+						<li><a class="txt-rendering" href="index.html#weepls"><strong>Weepls</strong></a></li>
+						<li><a class="txt-rendering" href="index.html#nft"><strong>NFT</strong></a></li>
+						<li><a class="txt-rendering" href="index.html#we_work"><strong>We Work</strong></a></li>
+						<li><a class="txt-rendering" href="sub/news.html">News</a></li>
+						<li><a class="txt-rendering" href="sub/community_list.html">Community</a></li>
+						<li><a class="txt-rendering" href="sub/qna.html">Q&A</a></li>
+						<li><a class="txt-rendering" href="sub/contact.html">Contact Us</a></li>
+					</ul>
+				</div>
+				<button type="button" class="btn-close"><em class="hidden-txt">전체메뉴 닫기</em></button>	
+			</nav>
 		</header><!-- // header -->	
 
 		<main>
 			<h1 class="hidden-txt">회사소개</h1>
 			<div class="swiper-container">
 				<div class="swiper-wrapper">
-					<section class="swiper-slide section-01"></section>
-					<section class="swiper-slide section-02"></section>
-					<section class="swiper-slide section-03"></section>	
+					<section class="swiper-slide section-01" data-hash="weepls"></section>
+					<section class="swiper-slide section-02" data-hash="nft"></section>
+					<section class="swiper-slide section-03" data-hash="we_work"></section>	
 				</div>
 				<div class="swiper-pagination"></div>
-				<div class="swiper-navigation">
-					<span class="logo"><em class="hidden-txt">weepls</em></span>
-					<span>
-						<button type="button" class="swiper-pause"><em class="hidden-txt">일시정지</em></button>
-						<button type="button" class="swiper-prev"><em class="hidden-txt">이전</em></button>
-						<button type="button" class="swiper-nxt"><em class="hidden-txt">다음</em></button>
-					</span>
-				</div>
 			</div>
 		</main><!-- // main -->
 		<div class="dimmed"><em class="hidden-txt">로딩 백그라운드 영역</em></div>

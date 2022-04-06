@@ -10,9 +10,9 @@ var _gb = function(){
 	this.html =  $('html');
 	this.body =  $('body');
 	this.layout = $('#layout');
+	this.main = $('main');
 	this.header = $('header');
-	this.menuAll = $('.menu-all');
-	this.navigation = $('.swiper-navigation');
+	this.menuAll = $('.menuAll');
 	this.pagination = $('.swiper-pagination');
 	this.isScroll = false;
 },
@@ -32,33 +32,23 @@ function commonFunction(){
 (function($){
 	gb.CommonFunction = function(){
 		var menuOn = function(){ // 상단 전체메뉴
-			gb.menuAll.find('> a').on('click', function(e){
-				e.preventDefault();
-				e.stopPropagation();
-
+			gb.menuAll.on('click', function(){
 				if(!gb.header.hasClass('open')){
 					gb.header.addClass('open');
-					gb.menuAll.find('> div')
-					.stop().fadeIn('300', function(){
-						gb.body.css({
-							'height': gb.menuAll.find('> div').height() + 'px',
-							'overflow' : 'hidden' 
-						});
-					});
-					gb.menuAll.find('.animate')
-					.addClass('animation--start');
-				}else {
-					gb.header.removeClass('open');
-					gb.menuAll.find('> div')
-					.stop().fadeOut('300', function(){
-						gb.body.css({
-							'height': 'auto',
-							'overflow' : 'auto' 
-						});
-					});
-					gb.menuAll.find('.animate')
-					.removeClass('animation--start');
+					gb.body.append('<div class="dimmed_trans"></div>');
+					$('.dimmed_trans').stop().fadeIn(300);
 				}
+			});
+
+			$(document).on('click','.btn-close, .dimmed_trans', function(){
+				gb.header.removeClass('open');
+				$('.dimmed_trans')
+				.stop().fadeOut(300, function(){
+					$(this).remove();
+					gb.header.find('.category').stop().animate({
+						scrollTop : 0
+					},100);
+				});
 			});
 		},
 
@@ -68,34 +58,39 @@ function commonFunction(){
 					// Optional parameters
 					//loop : true,
 					speed : 600,
-					//centeredSlides : true,
 					effect : 'fade',
 					fadeEffect: {
 						crossFade: true
 					},
 					pagination: {
-			          el: ".swiper-pagination",
-			          clickable: true,
-	        		},
-			        //shortSwipes: false,
-			        navigation: {
-					nextEl: ".swiper-nxt",
-		          	prevEl: ".swiper-prev",
-		        	},
+	          el: ".swiper-pagination",
+	          clickable: true,
+      		},
+	        //shortSwipes: false,
+	        navigation: {
+						nextEl: ".swiper-nxt",
+		        prevEl: ".swiper-prev",
+		      },
 					slidesPerView: 1,
 					debugger: true, // Enable debugger
+					hashNavigation : {
+						replaceState : true,
+						watchState : true,
+					}
 				});
 
 				gb.introSwiper.on('activeIndexChange', function(swiper){
-					var currentIndex = gb.introSwiper.realIndex;
-					console.log(currentIndex + 1);
-
-					contentsAjaxCall(currentIndex + 1);
-					setTimeout(scrollReset, 100);
+					setTimeout(function(){
+						var currentHash = $('.swiper-slide-active').data('hash');
+						scrollReset();
+						contentsAjaxCall(currentHash);
+						location.hash = '#' + currentHash;
+					},100);
 				});
 
+				var currentHash = $('.swiper-slide-active').data('hash');
+				contentsAjaxCall(currentHash);
 			}
-			contentsAjaxCall(1);
 		},
 
 		loading = function(status){
@@ -111,20 +106,28 @@ function commonFunction(){
 			}
 		},
 
-		contentsAjaxCall = function(n){
+		contentsAjaxCall = function(name){
 			loading('on');
 
-			var currentSlide = $('.section-0' + n);
+			var currentSlide = $('.swiper-slide-active');
+
 			$.ajax({
-				url : '../html/contents.html?',// + Math.random(),
+				url : '../../sub/contents.html',
 				dataType : 'html',
-				//cache : false,
 				type : 'get',
 				success : function(data){
-					currentSlide.html($(data).filter('#contents-' + n).html());
+					currentSlide.html($(data).filter('#' + name).html());
 					$('.swiper-slide').not(currentSlide).html('');
-					motion();
 					setTimeout(function(){
+						gb.header.removeClass('open');
+						$('.dimmed_trans')
+						.stop().fadeOut(300, function(){
+							$(this).remove();
+							gb.header.find('.category').stop().animate({
+								scrollTop : 0
+							},100);
+						});
+						motion();
 						loading('off');
 					},600);
 				}
@@ -138,9 +141,7 @@ function commonFunction(){
 				container = trg.closest('.heading').next('.container');
 
 				container.addClass('active');
-				gb.navigation.css('display','none');
 				gb.pagination.css('display','none');
-				gb.header.addClass('sticky');
 				gb.isScroll = true;
 
 				gb.html.stop().animate({scrollTop : trgPos + 'px'}, 600);
@@ -154,7 +155,8 @@ function commonFunction(){
 				el2 = gsap.utils.toArray('.aniLeft'),
 				el3 = gsap.utils.toArray('.aniRight'),
 				el4 = gsap.utils.toArray('.aniUp'),
-				el5 = gsap.utils.toArray('.zoomIn .item');
+				el5 = gsap.utils.toArray('.zoomIn .item'),
+				el6 = gsap.utils.toArray('.fadeIn');
 
 			el1.forEach(function(section, i){
 				gsap.to(section, {
@@ -240,6 +242,21 @@ function commonFunction(){
 				});
 			});
 
+			el6.forEach(function(section, i){
+				gsap.to(section, {
+					scrollTrigger: {
+						trigger : section,
+						scrub: 1.5,
+						//markers: true,
+						toggleActions: "restart pause reset pause",
+						start: "top 90%",
+						end: "30% 100%",
+						stagger: 0.4
+					},
+					opacity: 1
+				});
+			});
+
 			if($('.feature').length){
 				var scene = gsap.timeline();
 
@@ -258,12 +275,12 @@ function commonFunction(){
 				//scene.to('.feature .nft .pic ', {rotation: 6, transformOrigin: "center center", ease: "elastic.out(1, 0.1)", repeat: 5, yoyo: true});
 				scene.to('.feature b', {y:0, opacity:1, ease: "power1.in"});
 
-				$('#nft').on('mouseenter focusin', function(){
+				$('#nft_sample').on('mouseenter focusin', function(){
 					vibration.restart();
 				});
 
 				var vibration = gsap.timeline({paused: true});
-				vibration.to('#nft',{
+				vibration.to('#nft_sample',{
 			    rotation: 6 ,
 			    transformOrigin: "center center",
 			    ease: "elastic.out(1, 0.1)",
@@ -272,12 +289,12 @@ function commonFunction(){
 				  duration: 0.05
 				});
 
-				$('#art').on('mouseenter focusin', function(){
+				$('#art_sample').on('mouseenter focusin', function(){
 					vibration2.restart();
 				});
 
 				var vibration2 = gsap.timeline({paused: true});
-				vibration2.to('#art',{
+				vibration2.to('#art_sample',{
 			    rotation: 6 ,
 			    transformOrigin: "center center",
 			    ease: "elastic.out(1, 0.1)",
@@ -313,10 +330,8 @@ function commonFunction(){
 		},
 
 		scrollReset = function(){
-			gb.navigation.css('display','block');
-			gb.pagination.css('display','block');
-			gb.header.removeClass('sticky');
 			$('.container').removeClass('active');
+			gb.pagination.css('display','block');
 			gb.html.stop().animate({scrollTop : 0}, 100);
 			gb.isScroll = false;
 		},
@@ -348,25 +363,29 @@ function commonFunction(){
 		commonFunction().scrollReset();
 	});
 
+	window.onpageshow = function(event) {
+		if (event.persisted 
+			|| (window.performance 
+				&& window.performance.navigation.type == 2)) {
+			location.reload();
+		}
+	};
+
 	window.addEventListener('scroll', function(){
 		var currentTrg = $('.swiper-slide-active .more'),
 			container = currentTrg.closest('.heading').next('.container');
 
 		if(!gb.isScroll 
 			&& document.documentElement.scrollTop > 0){
-			container.addClass('active');
-			gb.navigation.css('display','none');
 			gb.pagination.css('display','none');
-			gb.header.addClass('sticky');
+			container.addClass('active');
 			gb.isScroll = true;
 
 		}
 		else if(document.documentElement.scrollTop == 0){
+			gb.pagination.css('display','block');
 			container.removeClass('active');
 			gb.html.stop().animate({scrollTop : 0}, 100);
-			gb.navigation.css('display','block');
-			gb.pagination.css('display','block');
-			gb.header.removeClass('sticky');
 			gb.isScroll = false;
 		}
 	});
