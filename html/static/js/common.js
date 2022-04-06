@@ -112,7 +112,7 @@ function commonFunction(){
 			var currentSlide = $('.swiper-slide-active');
 
 			$.ajax({
-				url : '../../sub/contents.html',
+				url : 'sub/contents.html',
 				dataType : 'html',
 				type : 'get',
 				success : function(data){
