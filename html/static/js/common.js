@@ -112,11 +112,11 @@ function commonFunction(){
 			var currentSlide = $('.swiper-slide-active');
 
 			$.ajax({
-				url : 'sub/contents.html',
+				url : 'sub/' + name + '.html',
 				dataType : 'html',
 				type : 'get',
 				success : function(data){
-					currentSlide.html($(data).filter('#' + name).html());
+					currentSlide.html($(data).filter('.wrapper').html());
 					$('.swiper-slide').not(currentSlide).html('');
 					setTimeout(function(){
 						gb.header.removeClass('open');
