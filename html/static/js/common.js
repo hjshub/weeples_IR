@@ -63,14 +63,14 @@ function commonFunction(){
 						crossFade: true
 					},
 					pagination: {
-	          el: ".swiper-pagination",
-	          clickable: true,
-      		},
-	        //shortSwipes: false,
-	        navigation: {
+						el: ".swiper-pagination",
+						clickable: true,
+					},
+					//shortSwipes: false,
+					navigation: {
 						nextEl: ".swiper-nxt",
-		        prevEl: ".swiper-prev",
-		      },
+						prevEl: ".swiper-prev",
+					},
 					slidesPerView: 1,
 					debugger: true, // Enable debugger
 					hashNavigation : {
@@ -345,7 +345,7 @@ function commonFunction(){
 		init = function(){
 			menuOn();
 			detailView();
-			//contextMenuCancel();
+			contextMenuCancel();
 		}
 
 		return {
