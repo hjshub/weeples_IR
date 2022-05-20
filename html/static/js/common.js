@@ -125,9 +125,11 @@ function commonFunction(){
 				$('.swiper-slide').not(currentSlide).html('');
 				setTimeout(function(){
 					scrollReset();
+				}, 100);
+				setTimeout(function(){
 					loading('off');
 					motion();
-				},300);
+				}, 300);
 			});
 		},
 
