@@ -82,13 +82,14 @@ function commonFunction(){
 				gb.introSwiper.on('activeIndexChange', function(swiper){
 					setTimeout(function(){
 						var currentHash = $('.swiper-slide-active').data('hash');
+						scrollReset();
+						contentsAjaxCall(currentHash);
 						location.hash = '#' + currentHash;
-						location.reload();
 					},100);
 				});
 
 				var currentHash = $('.swiper-slide-active').data('hash');
-				getData(currentHash);
+				contentsAjaxCall(currentHash);
 			}
 		},
 
@@ -105,31 +106,31 @@ function commonFunction(){
 			}
 		},
 
-		contentsAjaxCall = function(name, callbackFunc){
+		contentsAjaxCall = function(name){
+			loading('on');
+
+			var currentSlide = $('.swiper-slide-active');
+
 			$.ajax({
 				url : 'sub/' + name + '.html',
 				dataType : 'html',
 				type : 'get',
 				success : function(data){
-					callbackFunc(data);
+					currentSlide.html($(data).filter('.wrapper').html());
+					$('.swiper-slide').not(currentSlide).html('');
+					setTimeout(function(){
+						gb.header.removeClass('open');
+						$('.dimmed_trans')
+						.stop().fadeOut(300, function(){
+							$(this).remove();
+							gb.header.find('.category').stop().animate({
+								scrollTop : 0
+							},100);
+						});
+						motion();
+						loading('off');
+					},600);
 				}
-			});
-		},
-
-		getData = function(name){
-			var currentSlide = $('.swiper-slide-active');
-			contentsAjaxCall(name, function(result){
-				currentSlide.html($(result).filter('.wrapper').html());
-				$('.swiper-slide').not(currentSlide).html('');
-				
-				setTimeout(function(){
-					scrollReset();
-				}, 100);
-				
-				setTimeout(function(){
-					loading('off');
-					motion();
-				}, 300);
 			});
 		},
 
