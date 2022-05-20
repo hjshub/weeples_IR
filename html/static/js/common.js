@@ -82,13 +82,11 @@ function commonFunction(){
 				gb.introSwiper.on('activeIndexChange', function(swiper){
 					setTimeout(function(){
 						var currentHash = $('.swiper-slide-active').data('hash');
-						loading('on');
 						location.hash = '#' + currentHash;
 						location.reload();
 					},100);
 				});
 
-				loading('on');
 				var currentHash = $('.swiper-slide-active').data('hash');
 				getData(currentHash);
 			}
@@ -123,9 +121,11 @@ function commonFunction(){
 			contentsAjaxCall(name, function(result){
 				currentSlide.html($(result).filter('.wrapper').html());
 				$('.swiper-slide').not(currentSlide).html('');
+				
 				setTimeout(function(){
 					scrollReset();
 				}, 100);
+				
 				setTimeout(function(){
 					loading('off');
 					motion();
